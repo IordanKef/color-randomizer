@@ -72,4 +72,6 @@
   user-select: none;
 }
 
-
+.color-generator__hex-code:hover {
+  cursor: copy;
+}

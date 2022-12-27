@@ -13,7 +13,7 @@ function getRandomHexCode () {
   return newHexCode
 }
 
-function setButtons() {
+function setLockButtons() {
   colorBlocks.forEach( (item) => {
     const lockButton = item.querySelector('.color-generator__lock');
     lockButton.addEventListener('click', function (event) {
@@ -21,6 +21,16 @@ function setButtons() {
       eventTarget.classList.toggle('fa-lock-open')
       eventTarget.blur();
       item.classList.toggle('locked')
+    });
+  });
+}
+
+function CopyHexCodeToClipBoard () {
+  colorBlocks.forEach( (item) => {
+    const HexCode = item.querySelector('.color-generator__hex-code');
+    HexCode.addEventListener('click', function (event) {
+      eventTarget = event.target;
+      return navigator.clipboard.writeText(eventTarget.textContent);
     });
   });
 }
@@ -37,9 +47,25 @@ function updateColorBlocks() {
   });
 }
 
+function updateColorBlock() {
+  colorBlocks.forEach( (item) => {
+    item.addEventListener('click', (event) => {
+      if (item.classList.contains('locked')) {
+        return
+      } else {
+        let newHexCode = getRandomHexCode();
+        item.style.backgroundColor = newHexCode;
+        item.firstElementChild.textContent = newHexCode;
+      }
+     })
+    })
+}
+
 document.addEventListener('keydown', (event) => {
 	if (event.code.toLowerCase() === 'space')	updateColorBlocks();
 })
 
-setButtons()
+setLockButtons();
 updateColorBlocks();
+CopyHexCodeToClipBoard();
+updateColorBlock();
